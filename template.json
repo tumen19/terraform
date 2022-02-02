@@ -1,0 +1,80 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_Terraform_name": {
+            "defaultValue": "Terraform",
+            "type": "String"
+        },
+        "disks_Terraform_disk1_e95b5ef324e546df90fedb07525ea6b1_externalid": {
+            "defaultValue": "/subscriptions/8342c937-ea43-46a8-96b5-aca63454aa89/resourceGroups/Terraform_group_02021901/providers/Microsoft.Compute/disks/Terraform_disk1_e95b5ef324e546df90fedb07525ea6b1",
+            "type": "String"
+        },
+        "networkInterfaces_terraform957_externalid": {
+            "defaultValue": "/subscriptions/8342c937-ea43-46a8-96b5-aca63454aa89/resourceGroups/Terraform_group_02021901/providers/Microsoft.Network/networkInterfaces/terraform957",
+            "type": "String"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2021-07-01",
+            "name": "[parameters('virtualMachines_Terraform_name')]",
+            "location": "eastus",
+            "properties": {
+                "hardwareProfile": {
+                    "vmSize": "Standard_B1ls"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "canonical",
+                        "offer": "0001-com-ubuntu-server-focal",
+                        "sku": "20_04-lts-gen2",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "osType": "Linux",
+                        "name": "[concat(parameters('virtualMachines_Terraform_name'), '_disk1_e95b5ef324e546df90fedb07525ea6b1')]",
+                        "createOption": "FromImage",
+                        "caching": "ReadWrite",
+                        "managedDisk": {
+                            "storageAccountType": "Premium_LRS",
+                            "id": "[parameters('disks_Terraform_disk1_e95b5ef324e546df90fedb07525ea6b1_externalid')]"
+                        },
+                        "deleteOption": "Detach",
+                        "diskSizeGB": 30
+                    },
+                    "dataDisks": []
+                },
+                "osProfile": {
+                    "computerName": "[parameters('virtualMachines_Terraform_name')]",
+                    "adminUsername": "tumen",
+                    "linuxConfiguration": {
+                        "disablePasswordAuthentication": false,
+                        "provisionVMAgent": true,
+                        "patchSettings": {
+                            "patchMode": "ImageDefault",
+                            "assessmentMode": "ImageDefault"
+                        }
+                    },
+                    "secrets": [],
+                    "allowExtensionOperations": true,
+                    "requireGuestProvisionSignal": true
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[parameters('networkInterfaces_terraform957_externalid')]"
+                        }
+                    ]
+                },
+                "diagnosticsProfile": {
+                    "bootDiagnostics": {
+                        "enabled": true
+                    }
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "virtualMachines_Terraform_name": {
+            "value": null
+        },
+        "disks_Terraform_disk1_e95b5ef324e546df90fedb07525ea6b1_externalid": {
+            "value": null
+        },
+        "networkInterfaces_terraform957_externalid": {
+            "value": null
+        }
+    }
+}
